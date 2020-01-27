@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- External layouts styles -->
+    <template id="external_layout_background" inherit_id="web.external_layout_background">
+        <span t-field="company.partner_id" position="after">
+            <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
+                <t t-if="bank.print_report">
+                    <div t-if="bank.bank_name">
+                        <strong>Bank:</strong>
+                        <span t-field="bank.bank_name" />
+                    </div>
+                    <div t-if="bank.acc_number">
+                        <strong>Account:</strong>
+                        <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong>
+                    </div>
+                </t>
+            </div>
+        </span>
+        <span t-field="company.vat" position="replace">
+            <t t-if="company.partner_id.vat_subjected"><span t-field="company.partner_id.vat" /></t>
+            <t t-if="not company.partner_id.vat_subjected"><span t-esc="company.partner_id.vat[2:20]"/></t>
+        </span>
+        <li t-if="company.vat" position="after">
+            <li t-if="company.partner_id.nrc"><i class="fa fa-building-o"/>NRC: <span t-field="company.partner_id.nrc"/></li>
+        </li>
+    </template>
+    
+    <template id="external_layout_boxed" inherit_id="web.external_layout_boxed">
+        <span t-field="company.partner_id" position="after">
+            <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
+                <t t-if="bank.print_report">
+                    <div t-if="bank.bank_name">
+                        <strong>Bank:</strong>
+                        <span t-field="bank.bank_name" />
+                    </div>
+                    <div t-if="bank.acc_number">
+                        <strong>Account:</strong>
+                        <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong>
+                    </div>
+                </t>
+            </div>
+        </span>
+        <span t-field="company.vat" position="replace">
+            <t t-if="company.partner_id.vat_subjected"><span t-field="company.partner_id.vat" /></t>
+            <t t-if="not company.partner_id.vat_subjected"><span t-esc="company.partner_id.vat[2:20]"/></t>
+        </span>
+        <li t-if="company.vat" position="after">
+            <li t-if="company.partner_id.nrc">NRC: <span t-field="company.partner_id.nrc"/></li>
+        </li>
+    </template>
+    
+    <template id="external_layout_clean" inherit_id="web.external_layout_clean">
+        <span t-field="company.vat" position="replace">
+            <t t-if="company.partner_id.vat_subjected"><span t-field="company.partner_id.vat" /></t>
+            <t t-if="not company.partner_id.vat_subjected"><span t-esc="company.partner_id.vat[2:20]"/></t>
+        </span>
+        <li t-if="company.vat" position="after">
+            <li t-if="company.partner_id.nrc">NRC: <span t-field="company.partner_id.nrc"/></li>
+            <li t-if="company.partner_id.bank_ids">
+                <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
+                    <t t-if="bank.print_report">
+                        <div t-if="bank.bank_name">
+                            <strong>Bank:</strong>
+                            <span t-field="bank.bank_name" />
+                        </div>
+                        <div t-if="bank.acc_number">
+                            <strong>Account:</strong>
+                            <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong>
+                        </div>
+                    </t>
+                </div>
+            </li>
+        </li>
+    </template>
+    
+    <template id="external_layout_standard" inherit_id="web.external_layout_standard">
+        <span t-field="company.partner_id" position="after">
+            <div t-foreach="company.partner_id.bank_ids" t-as="bank" id="partner_bank">
+                <t t-if="bank.print_report">
+                    <div t-if="bank.bank_name">
+                        <strong>Bank:</strong>
+                        <span t-field="bank.bank_name" />
+                    </div>
+                    <div t-if="bank.acc_number">
+                        <strong>Account:</strong>
+                        <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong>
+                    </div>
+                </t>
+            </div>
+        </span>
+        <span t-field="company.vat" position="replace">
+            <t t-if="company.partner_id.vat_subjected"><span t-field="company.partner_id.vat" /></t>
+            <t t-if="not company.partner_id.vat_subjected"><span t-esc="company.partner_id.vat[2:20]"/></t>
+        </span>
+        <li t-if="company.vat" position="after">
+            <li t-if="company.partner_id.nrc">NRC: <span t-field="company.partner_id.nrc"/></li>
+        </li>
+    </template>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="l10n_ro_invoice_form_view" model="ir.ui.view">
+        <field name="name">l10n_ro.account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]/group[2]/div" position="after">
+                <field name="currency_rate" digits="[16, 4]"/>
+            </xpath>
+            <xpath expr="//field[@name='move_id']/.." position="after">
+                <group string="Amounts in company currency">
+                    <field name="amount_untaxed_signed" string="Untaxed Amount"/>
+                    <field name="amount_tax_company_signed" string="Tax Amount"/>
+                    <field name="amount_total_company_signed" string="Total Amount"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="l10n_ro_invoice_supplier_form_view" model="ir.ui.view">
+        <field name="name">l10n_ro.account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="company_currency_id" position="after">
+                <field name="currency_rate" digits="[16, 4]"/>
+            </field>
+            <xpath expr="//field[@name='move_id']/.." position="after">
+                <group string="Amounts in company currency">
+                    <field name="amount_untaxed_signed" string="Untaxed Amount"/>
+                    <field name="amount_tax_company_signed" string="Tax Amount"/>
+                    <field name="amount_total_company_signed" string="Total Amount"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		<template id="l10n_ro_report_invoice_document" inherit_id="account.report_invoice_document">
+			    <span t-field="o.partner_id.vat" position="replace">
+                    <t t-if="o.commercial_partner_id.vat_subjected"><span t-field="o.commercial_partner_id.vat" /></t>
+                    <t t-if="not o.commercial_partner_id.vat_subjected"><span t-esc="o.commercial_partner_id.vat[2:20]"/></t>
+                </span>			
+                <div name="invoice_address" position="inside">
+                    <div t-if="o.partner_id.nrc" class="mt16">NRC: <span t-field="o.partner_id.nrc"/></div>
+                    <div t-foreach="o.commercial_partner_id.bank_ids" t-as="bank" id="partner_bank">
+                        <t t-if="bank.print_report">
+                            <div t-if="bank.bank_name">
+                                <strong>Bank:</strong>
+                                <span t-field="bank.bank_name" />
+                            </div>
+                            <div t-if="bank.acc_number">
+                                <strong>Account:</strong>
+                                <span t-field="bank.acc_number" /> - <strong t-if="bank.currency_id"> <span t-field="bank.currency_id" /></strong>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                <div name="invoice_address" position="after">
+                    <div t-if="o.currency_id != o.company_currency_id and o.currency_rate" class="mt16">Currency rate: 1 <span t-esc="o.currency_id.symbol"/> = <span t-esc="round(o.currency_rate, 4)"/> <span t-esc="o.company_id.currency_id.symbol"/></div>
+                </div>
+                <xpath expr="//table/thead/tr/th[5]" position="replace">
+                    <th class="text-right">Subtotal</th>
+                </xpath>
+                <xpath expr="//table/thead/tr/th[6]" position="replace">
+                    <th class="text-right">Taxes</th>
+                </xpath>
+                <xpath expr="//table/thead/tr/th[7]" position="replace">
+                    <th class="text-right">Total</th>
+                </xpath>
+
+                <xpath expr="//table/tbody[@class='invoice_tbody']/tr/td[4]/span" position="replace">
+                    <span t-field="l.price_unit_without_taxes" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </xpath>
+                <xpath expr="//table/tbody[@class='invoice_tbody']/tr/td[5]/span" position="replace">
+                    <span t-field="l.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </xpath>
+                <xpath expr="//table/tbody[@class='invoice_tbody']/tr/td[6]/span" position="replace">
+                    <span t-field="l.price_taxes" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </xpath>
+                <xpath expr="//table/tbody[@class='invoice_tbody']/tr/td[7]/span" position="replace">
+                    <span t-field="l.price_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </xpath>
+                <div id="total" position="inside">
+                    <div t-if="o.currency_id != o.company_id.currency_id" class="col-xs-4 pull-left">
+                        <table class="table table-condensed" style="min-width: 250px;max-width: 400px;">
+                            <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                <td><strong>Subtotal</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_untaxed_signed" t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'/>
+                                </td>
+                            </tr>
+                            <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
+                                <tr style="border-bottom:1px solid #dddddd;">
+                                    <t t-if="len(o.tax_line_ids) == 1 and o.amount_untaxed_signed == amount_by_group[6]">
+                                        <td>
+                                            <span t-esc="amount_by_group[0]"/>
+                                            <span>&amp;nbsp;<span>on</span>
+                                                <t t-esc="amount_by_group[8]"/>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="amount_by_group[7]"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td><span t-esc="amount_by_group[0]"/></td>
+                                        <td class="text-right">
+                                            <span t-esc="amount_by_group[7]" />
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr class="border-black">
+                                <td><strong>Total</strong></td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_total_company_signed" t-options='{"widget": "monetary", "display_currency": o.company_currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <xpath expr="//p[@t-if='o.comment']" position="after">
+                    <p t-if="o.type == 'out_invoice'" id="sign_info">
+                        <span t-field="o.company_id.invoice_no_signature_text"/>
+                    </p>
+                </xpath>
+		</template>
+</odoo>

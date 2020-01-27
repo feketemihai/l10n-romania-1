@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Employee Contract -->
+
+        <record id="hr_payroll.hr_contract_firstcontract1" model="hr.contract">
+            <field name="revisal_no">1</field>
+        </record>
+
+        <record id="hr_payroll.hr_contract_gilles_gravie" model="hr.contract">
+            <field name="revisal_no">2</field>
+        </record>
+
+</odoo>
